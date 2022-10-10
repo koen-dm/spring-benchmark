@@ -13,7 +13,7 @@ import kotlin.system.measureTimeMillis
 
 @RestController
 @RequestMapping("benchmark")
-class BenchmarkController {
+class BenchmarkController(private val sortingService: SortingService) {
     private val logger = LoggerFactory.getLogger(this.javaClass)
 
     @GetMapping("generate/{arrayCount}/{arrayLength}")
@@ -30,36 +30,19 @@ class BenchmarkController {
         val duration = if (parallel)
             measureTimeMillis {
                 nestedArray.parallelStream().forEach { array ->
-                    bubbleSort(array)
+                    sortingService.bubbleSort(array)
                 }
             }
         else
             measureTimeMillis {
                 nestedArray.forEach { array ->
-                    bubbleSort(array)
+                    sortingService.bubbleSort(array)
                 }
             }
 
         logger.info("Sorted array in ${duration}ms. parallel: $parallel")
 
         return
-    }
-
-    fun bubbleSort(arr: IntArray): IntArray {
-        var swap = true
-        while (swap) {
-            swap = false
-            for (i in 0 until arr.size - 1) {
-                if (arr[i] > arr[i + 1]) {
-                    val temp = arr[i]
-                    arr[i] = arr[i + 1]
-                    arr[i + 1] = temp
-
-                    swap = true
-                }
-            }
-        }
-        return arr
     }
 
 }
