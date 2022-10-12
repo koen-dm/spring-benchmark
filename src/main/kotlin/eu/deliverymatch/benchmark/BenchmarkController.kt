@@ -23,8 +23,12 @@ class BenchmarkController(private val sortingService: SortingService) {
         }
 
     @GetMapping
-    fun hello(): String {
-        return "Hello World"
+    fun hello(): List<Message> {
+        return listOf(
+            Message("Hello World"),
+            Message("Hello World"),
+            Message("Hello World"),
+        )
     }
 
     @PostMapping
@@ -51,3 +55,4 @@ class BenchmarkController(private val sortingService: SortingService) {
     }
 
 }
+data class Message(val text: String)
