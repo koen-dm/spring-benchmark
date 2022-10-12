@@ -19,8 +19,17 @@ class BenchmarkController(private val sortingService: SortingService) {
     @GetMapping("generate/{arrayCount}/{arrayLength}")
     fun generateArray(@PathVariable arrayCount: Int, @PathVariable arrayLength: Int): List<IntArray> =
         (1..arrayCount).map {
-            IntArray(arrayLength) { Random().nextInt(0, 10000) }
+            IntArray(arrayLength) { Random().nextInt(0, 10_000) }
         }
+
+    @GetMapping
+    fun hello(): List<Message> {
+        return listOf(
+            Message("Hello World"),
+            Message("Hello World"),
+            Message("Hello World"),
+        )
+    }
 
     @PostMapping
     fun benchmark(
@@ -46,3 +55,4 @@ class BenchmarkController(private val sortingService: SortingService) {
     }
 
 }
+data class Message(val text: String)
